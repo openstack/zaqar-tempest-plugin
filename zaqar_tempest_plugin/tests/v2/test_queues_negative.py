@@ -18,7 +18,7 @@ from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 from tempest.lib import exceptions as lib_exc
 
-from zaqar.tests.tempest_plugin.tests import base
+from zaqar_tempest_plugin.tests import base
 
 
 class QueueNegativeTestJSON(base.BaseV2MessagingTest):

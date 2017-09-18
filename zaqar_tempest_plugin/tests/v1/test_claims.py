@@ -1,4 +1,4 @@
-# Copyright (c) 2016 HuaWei, Inc.
+# Copyright (c) 2014 Rackspace, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,13 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 
-from zaqar.tests.tempest_plugin.tests import base
+from zaqar_tempest_plugin.tests import base
 
 
 CONF = config.CONF
 
 
-class TestClaims(base.BaseV11MessagingTest):
+class TestClaims(base.BaseV1MessagingTest):
 
     @classmethod
     def resource_setup(cls):
@@ -50,34 +50,34 @@ class TestClaims(base.BaseV11MessagingTest):
 
         return resp, body
 
-    @decorators.idempotent_id('6fc4b79d-2366-4911-b0be-6446a1f02aea')
+    @decorators.idempotent_id('936cb1ca-b7af-44dd-a752-805e8c98156f')
     def test_post_claim(self):
         _, body = self._post_and_claim_messages(queue_name=self.queue_name)
-        claimed_message_uri = body['messages'][0]['href']
+        claimed_message_uri = body[0]['href']
 
         # Delete Claimed message
         self.client.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('c61829f9-104a-4860-a136-6af2a89f3eef')
+    @decorators.idempotent_id('84e491f4-68c6-451f-9846-b8f868eb27c5')
     def test_query_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
 
         # Query Claim
-        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
+        claim_uri = resp['location'][resp['location'].find('/v1'):]
         self.client.query_claim(claim_uri)
 
         # Delete Claimed message
-        claimed_message_uri = body['messages'][0]['href']
+        claimed_message_uri = body[0]['href']
         self.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('57b9d065-1995-420f-9173-4d716339e3b9')
+    @decorators.idempotent_id('420ef0c5-9bd6-4b82-b06d-d9da330fefd3')
     def test_update_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
 
-        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
-        claimed_message_uri = body['messages'][0]['href']
+        claim_uri = resp['location'][resp['location'].find('/v1'):]
+        claimed_message_uri = body[0]['href']
 
         # Update Claim
         claim_ttl = data_utils.rand_int_id(start=60,
@@ -94,11 +94,11 @@ class TestClaims(base.BaseV11MessagingTest):
         # Delete Claimed message
         self.client.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('71081c25-3eb4-427a-b2f3-891d0c5f7d32')
+    @decorators.idempotent_id('fd4c7921-cb3f-4ed8-9ac8-e8f1e74c44aa')
     def test_release_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
-        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
+        claim_uri = resp['location'][resp['location'].find('/v1'):]
 
         # Release Claim
         self.client.delete_claim(claim_uri)

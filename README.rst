@@ -1,19 +1,12 @@
-===============================
-openstack
-===============================
+====================
+Zaqar Tempest Plugin
+====================
 
-Tempest plugin zaqar_tempest_plugin
+Tempest plugin for Zaqar project.
 
-Please fill here a long description which must be at least 3 lines wrapped on
-80 cols, so that distribution package maintainers can use it in their packages.
-Note that this is a hard requirement.
+It contains the tempest plugin for the functional testing of Zaqar Project.
 
 * Free software: Apache license
-* Documentation: http://docs.openstack.org/developer/openstack
-* Source: http://git.openstack.org/cgit/openstack/openstack
-* Bugs: http://bugs.launchpad.net/zaqar_tempest_plugin
-
-Features
---------
-
-* TODO
+* Documentation: http://docs.openstack.org/developer/zaqar
+* Source: http://git.openstack.org/cgit/openstack/zaqar-tempest-plugin
+* Bugs: http://bugs.launchpad.net/zaqar

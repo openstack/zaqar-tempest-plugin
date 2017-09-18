@@ -17,7 +17,7 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest import test
 
-from zaqar.tests.tempest_plugin.services.messaging.json import messaging_client
+from zaqar_tempest_plugin.services.messaging.json import messaging_client
 
 CONF = config.CONF
 

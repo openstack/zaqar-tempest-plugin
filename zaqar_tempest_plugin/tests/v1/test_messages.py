@@ -17,7 +17,7 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 
-from zaqar.tests.tempest_plugin.tests import base
+from zaqar_tempest_plugin.tests import base
 
 CONF = config.CONF
 

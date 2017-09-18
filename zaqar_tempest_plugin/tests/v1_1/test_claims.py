@@ -13,20 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import time
-
 from six.moves.urllib import parse as urlparse
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 
-from zaqar.tests.tempest_plugin.tests import base
+from zaqar_tempest_plugin.tests import base
 
 
 CONF = config.CONF
 
 
-class TestClaims(base.BaseV2MessagingTest):
+class TestClaims(base.BaseV11MessagingTest):
 
     @classmethod
     def resource_setup(cls):
@@ -52,7 +50,7 @@ class TestClaims(base.BaseV2MessagingTest):
 
         return resp, body
 
-    @decorators.idempotent_id('3b839cac-d214-4fca-8c03-b8edbdcecb20')
+    @decorators.idempotent_id('6fc4b79d-2366-4911-b0be-6446a1f02aea')
     def test_post_claim(self):
         _, body = self._post_and_claim_messages(queue_name=self.queue_name)
         claimed_message_uri = body['messages'][0]['href']
@@ -60,25 +58,25 @@ class TestClaims(base.BaseV2MessagingTest):
         # Delete Claimed message
         self.client.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('e69d047c-b3f4-4216-990e-7953407084b7')
+    @decorators.idempotent_id('c61829f9-104a-4860-a136-6af2a89f3eef')
     def test_query_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
 
         # Query Claim
-        claim_uri = resp['location'][resp['location'].find('/v2'):]
+        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
         self.client.query_claim(claim_uri)
 
         # Delete Claimed message
         claimed_message_uri = body['messages'][0]['href']
         self.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('5e1e7559-77fc-4ea8-a817-cd43be23d692')
+    @decorators.idempotent_id('57b9d065-1995-420f-9173-4d716339e3b9')
     def test_update_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
 
-        claim_uri = resp['location'][resp['location'].find('/v2'):]
+        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
         claimed_message_uri = body['messages'][0]['href']
 
         # Update Claim
@@ -96,11 +94,11 @@ class TestClaims(base.BaseV2MessagingTest):
         # Delete Claimed message
         self.client.delete_messages(claimed_message_uri)
 
-    @decorators.idempotent_id('97c1ebcc-9d1e-463a-8673-6ec989ba3be7')
+    @decorators.idempotent_id('71081c25-3eb4-427a-b2f3-891d0c5f7d32')
     def test_release_claim(self):
         # Post a Claim
         resp, body = self._post_and_claim_messages(queue_name=self.queue_name)
-        claim_uri = resp['location'][resp['location'].find('/v2'):]
+        claim_uri = resp['location'][resp['location'].find('/v1.1'):]
 
         # Release Claim
         self.client.delete_claim(claim_uri)
@@ -109,44 +107,6 @@ class TestClaims(base.BaseV2MessagingTest):
         # This will implicitly verify that the claim is deleted.
         message_uri = urlparse.urlparse(claim_uri).path
         self.client.delete_messages(message_uri)
-
-    @decorators.idempotent_id('c1975970-66e7-11e7-a771-fa163e40e1ff')
-    def test_dead_letter_queue(self):
-        # Post Messages
-        QueueName = "QueueWithDLQ"
-        DLQ_name = "DLQ"
-        meta = {'ttl': 60, 'grace': 60}
-        # Set dead letter queeu metadata
-        op1 = {"op": "add",
-               "path": "/metadata/_max_claim_count", "value": 2}
-        op2 = {"op": "add",
-               "path": "/metadata/_dead_letter_queue", "value": DLQ_name}
-        op3 = {"op": "add",
-               "path": "/metadata/_dead_letter_queue_messages_ttl",
-               "value": 7799}
-        metadata = [op1, op2, op3]
-        self.client.create_queue(QueueName)
-        self.client.create_queue(DLQ_name)
-        self.set_queue_metadata(QueueName, metadata)
-        message_body = self.generate_message_body(repeat=1)
-        self.client.post_messages(queue_name=QueueName,
-                                  rbody=message_body)
-
-        for i in range(3):
-            resp, body = self.client.post_claims(
-                queue_name=QueueName,
-                rbody=meta)
-            if(i == 2):
-                self.assertEqual('204', resp['status'])
-            else:
-                self.assertEqual('201', resp['status'])
-                self.assertEqual(1, len(body["messages"]))
-                time.sleep(70)
-
-        resp, body = self.client.list_messages(DLQ_name)
-        self.assertEqual('200', resp['status'])
-        self.client.delete_queue(DLQ_name)
-        self.client.delete_queue(QueueName)
 
     @classmethod
     def resource_cleanup(cls):

@@ -19,11 +19,11 @@ from oslo_serialization import jsonutils as json
 from six.moves.urllib import parse as urllib
 from tempest.lib.common import rest_client
 
-from zaqar.tests.tempest_plugin.api_schema.response.v1 \
+from zaqar_tempest_plugin.api_schema.response.v1 \
     import queues as v1schema
-from zaqar.tests.tempest_plugin.api_schema.response.v1_1 \
+from zaqar_tempest_plugin.api_schema.response.v1_1 \
     import queues as v11schema
-from zaqar.tests.tempest_plugin.api_schema.response.v2 \
+from zaqar_tempest_plugin.api_schema.response.v2 \
     import queues as v2schema
 
 
