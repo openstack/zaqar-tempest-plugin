@@ -581,7 +581,8 @@ class TestMessagesNegative(base.BaseV2MessagingTest):
         # Pop value must be at least 1 and may not be greater than 20
         queue_name = self.queues[data_utils.rand_int_id(0,
                                                         len(self.queues) - 1)]
-        value = ' '
+        # Use url code here to avoid Apache error.
+        value = '%20'
         uri = "/v2/queues/{0}/messages?pop={1}".format(queue_name, value)
         self.assertRaises(lib_exc.BadRequest,
                           self.client.delete_messages, uri)

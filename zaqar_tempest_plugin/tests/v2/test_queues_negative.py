@@ -44,15 +44,6 @@ class QueueNegativeTestJSON(base.BaseV2MessagingTest):
                           queue_name)
 
     @decorators.attr(type=['negative'])
-    @decorators.idempotent_id('639206ad-d74c-4f51-895d-76e2c7dff60b')
-    def test_queue_name_is_not_specified(self):
-        # Length of queue name should >= 1 and <=64 bytes
-        queue_name = ' '
-        self.assertRaises(lib_exc.UnexpectedResponseCode,
-                          self.client.create_queue,
-                          queue_name)
-
-    @decorators.attr(type=['negative'])
     @decorators.idempotent_id('3ca0e180-c770-4922-8a48-9563c484aaed')
     def test_queue_name_has_a_invalid_character_set(self):
         # Invalid name with characters
