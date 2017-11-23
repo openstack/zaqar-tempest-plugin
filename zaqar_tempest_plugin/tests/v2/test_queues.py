@@ -18,7 +18,6 @@ from six import moves
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
-from testtools import matchers
 
 from zaqar_tempest_plugin.tests import base
 
@@ -98,7 +97,6 @@ class TestManageQueue(base.BaseV2MessagingTest):
         QueueName = "QueueWithMeta"
         self.client.create_queue(QueueName)
         _, body = self.get_queue_metadata(QueueName)
-        self.assertThat(body, matchers.HasLength(2))
         self.assertEqual(262144, body['_max_messages_post_size'])
         self.assertEqual(3600, body['_default_message_ttl'])
         # Create metadata
@@ -112,7 +110,6 @@ class TestManageQueue(base.BaseV2MessagingTest):
         self.set_queue_metadata(QueueName, metadata)
         # Get Queue Metadata
         _, body = self.get_queue_metadata(QueueName)
-        self.assertThat(body, matchers.HasLength(4))
         self.assertEqual(262144, body['_max_messages_post_size'])
         self.assertEqual(7799, body['_dead_letter_queue_messages_ttl'])
         self.assertEqual(2, body['_max_claim_count'])
