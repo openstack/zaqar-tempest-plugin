@@ -98,10 +98,9 @@ class TestManageQueue(base.BaseV2MessagingTest):
         QueueName = "QueueWithMeta"
         self.client.create_queue(QueueName)
         _, body = self.get_queue_metadata(QueueName)
-        self.assertThat(body, matchers.HasLength(3))
+        self.assertThat(body, matchers.HasLength(2))
         self.assertEqual(262144, body['_max_messages_post_size'])
         self.assertEqual(3600, body['_default_message_ttl'])
-        self.assertEqual(0, body['_default_message_delay'])
         # Create metadata
         op1 = {"op": "add",
                "path": "/metadata/_max_claim_count", "value": 2}
@@ -113,12 +112,11 @@ class TestManageQueue(base.BaseV2MessagingTest):
         self.set_queue_metadata(QueueName, metadata)
         # Get Queue Metadata
         _, body = self.get_queue_metadata(QueueName)
-        self.assertThat(body, matchers.HasLength(5))
+        self.assertThat(body, matchers.HasLength(4))
         self.assertEqual(262144, body['_max_messages_post_size'])
         self.assertEqual(7799, body['_dead_letter_queue_messages_ttl'])
         self.assertEqual(2, body['_max_claim_count'])
         self.assertEqual(3600, body['_default_message_ttl'])
-        self.assertEqual(0, body['_default_message_delay'])
         self.client.delete_queue(QueueName)
 
     @decorators.idempotent_id('2fb6e5a8-c18f-4407-9ee7-7a13c8e09f69')
