@@ -150,7 +150,8 @@ list_messages_response = {
             'href': {'type': 'string'},
             'ttl': message_ttl,
             'age': age,
-            'body': {'type': 'object'}
+            'body': {'type': 'object'},
+            'checksum': {'type': 'string'},
         },
         'required': ['href', 'ttl', 'age', 'body']
     }
@@ -175,7 +176,8 @@ single_message = {
         'ttl': message_ttl,
         'age': age,
         'body': {'type': 'object'},
-        'id': {'type': 'string'}
+        'id': {'type': 'string'},
+        'checksum': {'type': 'string'},
     },
     'required': ['href', 'ttl', 'age', 'body', 'id']
 }
@@ -209,7 +211,8 @@ messages_claimed = {
         'ttl': message_ttl,
         'age': {'type': 'number'},
         'body': {'type': 'object'},
-        'id': {'type': 'string'}
+        'id': {'type': 'string'},
+        'checksum': {'type': 'string'},
     },
     'required': ['href', 'ttl', 'age', 'body', 'id']
 }
