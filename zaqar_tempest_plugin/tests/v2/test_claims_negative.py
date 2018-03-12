@@ -274,6 +274,19 @@ class TestClaimsNegative(base.BaseV2MessagingTest):
         self.assertRaises(lib_exc.Unauthorized,
                           self.client.post_claims, self.queue_name, claim_body)
 
+    @decorators.attr(type=['negative'])
+    @decorators.idempotent_id('3c8b5ae5-31ea-4063-b1a6-67915d9b5f70')
+    def test_claim_messages_non_existent_queue(self):
+        non_existent_queue = data_utils.rand_name('rand_queuename')
+        claim_ttl = data_utils.rand_int_id(start=60,
+                                           end=CONF.messaging.max_claim_ttl)
+        claim_grace = data_utils.\
+            rand_int_id(start=60, end=CONF.messaging.max_claim_grace)
+        claim_body = {"ttl": claim_ttl, "grace": claim_grace}
+        resp, _ = self.client.post_claims(non_existent_queue,
+                                          claim_body)
+        self.assertEqual('204', resp['status'])
+
     # Query Claim
 
     @decorators.attr(type=['negative'])
