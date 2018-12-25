@@ -14,11 +14,8 @@ It contains the tempest plugin for the functional testing of Zaqar Project.
 Running the tests
 -----------------
 
-To run all tests from this plugin, install Zaqar into your environment
-and from the tempest repo, run::
+To run all tests from this plugin, install zaqar, zaqar-tempest-plugin and
+tempest into your environment, make sure to configure the tempest correctly,
+and then from the tempest repo, run::
 
-    $ tox -e all-plugin -- zaqar_tempest_tests
-
-To run all tempest tests including this plugin, run::
-
-    $ tox -e all-plugin
+    $ tempest run --regex zaqar_tempest_plugin --config-file /etc/tempest/tempest.conf
