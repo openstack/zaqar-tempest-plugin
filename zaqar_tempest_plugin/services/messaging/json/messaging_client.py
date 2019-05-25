@@ -485,8 +485,8 @@ class V2MessagingClient(MessagingClient):
         return resp, body
 
     def list_subscription(self, queue_name):
-        uri = '{0}/queues/{1}/subscriptions/'.format(self.uri_prefix,
-                                                     queue_name)
+        uri = '{0}/queues/{1}/subscriptions'.format(self.uri_prefix,
+                                                    queue_name)
         resp, body = self.get(uri, headers=self.headers)
         body = json.loads(body)
         self.validate_response(v2schema.list_subscriptions, resp, body)
