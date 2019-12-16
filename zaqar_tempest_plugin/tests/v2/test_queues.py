@@ -36,7 +36,7 @@ class TestQueues(base.BaseV2MessagingTest):
         # NOTE(gmann): create_queue returns response status code as 201
         # so specifically checking the expected empty response body as
         # this is not going to be checked in response_checker().
-        self.assertEqual('', body)
+        self.assertEqual(b'', body)
 
         self.delete_queue(queue_name)
         # lazy queue
