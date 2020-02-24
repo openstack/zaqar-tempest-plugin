@@ -79,6 +79,15 @@ class TestManageQueue(base.BaseV2MessagingTest):
         for item in body['queues']:
             self.assertIn(item['name'], self.queues)
 
+    @decorators.idempotent_id('9a2e9a09-5cbd-416f-a75f-fe827462aa9a')
+    def test_list_queues_with_count(self):
+        # Listing queues with count
+        _, body = self.client.list_queues(url_params={"with_count": True})
+        self.assertEqual(len(body['queues']), len(self.queues))
+        self.assertEqual(len(self.queues), body['count'])
+        for item in body['queues']:
+            self.assertIn(item['name'], self.queues)
+
     @decorators.idempotent_id('e96466e7-d43f-48f9-bfe8-59e3d40f6868')
     def test_get_queue_stats(self):
         # Retrieve random queue
