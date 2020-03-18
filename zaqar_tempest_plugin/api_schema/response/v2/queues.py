@@ -52,6 +52,9 @@ list_queues = {
             'queues': {
                 'type': 'array',
                 'items': list_queue
+            },
+            'count': {
+                'type': 'number'
             }
         },
         'required': ['links', 'queues']
