@@ -84,7 +84,6 @@ class TestManageQueue(base.BaseV2MessagingTest):
         # Listing queues with count
         _, body = self.client.list_queues(url_params={"with_count": True})
         self.assertEqual(len(body['queues']), len(self.queues))
-        self.assertEqual(len(self.queues), body['count'])
         for item in body['queues']:
             self.assertIn(item['name'], self.queues)
 
