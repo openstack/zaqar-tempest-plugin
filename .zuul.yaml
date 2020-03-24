@@ -1,6 +1,49 @@
+- job:
+    name: zaqar-tempest-plugin-tempest-base
+    parent: legacy-dsvm-base
+    irrelevant-files:
+      - ^(test-|)requirements.txt$
+      - ^setup.cfg$
+    required-projects:
+      - openstack/devstack-gate
+      - openstack/python-zaqarclient
+      - openstack/tempest
+      - openstack/zaqar
+      - openstack/zaqar-tempest-plugin
+    run: playbooks/legacy/tempest-devstack-zaqar-base/run.yaml
+    post-run: playbooks/legacy/tempest-devstack-zaqar-base/post.yaml
+    timeout: 7800
+
+- job:
+    name: zaqar-tempest-plugin-tempest-mongodb
+    parent: zaqar-tempest-plugin-tempest-base
+    vars:
+      database_backend: mongodb
+
+- job:
+    name: zaqar-tempest-plugin-tempest-redis
+    parent: zaqar-tempest-plugin-tempest-base
+    vars:
+      database_backend: redis
+
+- job:
+    name: zaqar-tempest-plugin-tempest-swift
+    parent: zaqar-tempest-plugin-tempest-base
+    vars:
+      database_backend: swift
+
 - project:
     templates:
       - check-requirements
       - tempest-plugin-jobs
+    check:
+      jobs:
+        - zaqar-tempest-plugin-tempest-redis
+        - zaqar-tempest-plugin-tempest-swift
+        - zaqar-tempest-plugin-tempest-mongodb
     gate:
       queue: zaqar
+      jobs:
+        - zaqar-tempest-plugin-tempest-redis
+        - zaqar-tempest-plugin-tempest-swift
+        - zaqar-tempest-plugin-tempest-mongodb
