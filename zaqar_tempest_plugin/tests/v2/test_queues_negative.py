@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from six import moves
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 from tempest.lib import exceptions as lib_exc
@@ -27,7 +26,7 @@ class QueueNegativeTestJSON(base.BaseV2MessagingTest):
     def resource_setup(cls):
         super(QueueNegativeTestJSON, cls).resource_setup()
         cls.queues = list()
-        for _ in moves.xrange(1):
+        for _ in range(1):
             queue_name = data_utils.rand_name('Queues-Test')
             cls.queues.append(queue_name)
             cls.client.create_queue(queue_name)

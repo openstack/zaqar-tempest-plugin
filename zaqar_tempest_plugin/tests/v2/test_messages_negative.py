@@ -16,7 +16,6 @@
 import random
 
 from oslo_utils import uuidutils
-from six import moves
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
@@ -33,7 +32,7 @@ class TestMessagesNegative(base.BaseV2MessagingTest):
     def resource_setup(cls):
         super(TestMessagesNegative, cls).resource_setup()
         cls.queues = list()
-        for _ in moves.xrange(1):
+        for _ in range(1):
             queue_name = data_utils.rand_name('Queues-Test')
             cls.queues.append(queue_name)
             # Create Queue

@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import urllib
+
 from oslo_utils import uuidutils
 
 from oslo_serialization import jsonutils as json
-from six.moves.urllib import parse as urllib
 from tempest.lib.common import rest_client
 
 from zaqar_tempest_plugin.api_schema.response.v1 \
@@ -150,7 +151,7 @@ class V1MessagingClient(MessagingClient):
     def post_claims(self, queue_name, rbody, url_params=False):
         uri = '{0}/queues/{1}/claims'.format(self.uri_prefix, queue_name)
         if url_params:
-            uri += '?%s' % urllib.urlencode(url_params)
+            uri += '?%s' % urllib.parse.urlencode(url_params)
 
         resp, body = self.post(uri, body=json.dumps(rbody),
                                extra_headers=True,
@@ -285,7 +286,7 @@ class V11MessagingClient(MessagingClient):
     def post_claims(self, queue_name, rbody, url_params=False):
         uri = '{0}/queues/{1}/claims'.format(self.uri_prefix, queue_name)
         if url_params:
-            uri += '?%s' % urllib.urlencode(url_params)
+            uri += '?%s' % urllib.parse.urlencode(url_params)
 
         resp, body = self.post(uri, body=json.dumps(rbody),
                                extra_headers=True,
@@ -326,7 +327,7 @@ class V2MessagingClient(MessagingClient):
     def list_queues(self, url_params=False):
         uri = '{0}/queues'.format(self.uri_prefix)
         if url_params:
-            uri += '?%s' % urllib.urlencode(url_params)
+            uri += '?%s' % urllib.parse.urlencode(url_params)
 
         resp, body = self.get(uri, headers=self.headers)
         if resp['status'] != '204':
@@ -436,7 +437,7 @@ class V2MessagingClient(MessagingClient):
     def post_claims(self, queue_name, rbody, url_params=False):
         uri = '{0}/queues/{1}/claims'.format(self.uri_prefix, queue_name)
         if url_params:
-            uri += '?%s' % urllib.urlencode(url_params)
+            uri += '?%s' % urllib.parse.urlencode(url_params)
 
         resp, body = self.post(uri, body=json.dumps(rbody),
                                extra_headers=True,

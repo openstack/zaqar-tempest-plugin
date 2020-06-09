@@ -14,8 +14,8 @@
 # limitations under the License.
 
 import time
+import urllib
 
-from six.moves.urllib import parse as urlparse
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
@@ -107,7 +107,7 @@ class TestClaims(base.BaseV2MessagingTest):
 
         # Delete Claimed message
         # This will implicitly verify that the claim is deleted.
-        message_uri = urlparse.urlparse(claim_uri).path
+        message_uri = urllib.parse.urlparse(claim_uri).path
         self.client.delete_messages(message_uri)
 
     @decorators.idempotent_id('c1975970-66e7-11e7-a771-fa163e40e1ff')
