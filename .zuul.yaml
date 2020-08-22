@@ -1,20 +1,72 @@
 - job:
-    name: zaqar-tempest-plugin-tempest-mongodb
-    parent: zaqar-tempest-base
-    vars:
-      database_backend: mongodb
+    name: zaqar-tempest-plugin-base
+    abstract: true
+    parent: devstack-tempest
+    description: |
+      Abstract base tempest job for zaqar tempest plugin
+    required-projects: &zaqar-plugin-required-projects
+      - opendev.org/openstack/python-zaqarclient
+      - opendev.org/openstack/zaqar
+      - opendev.org/openstack/zaqar-tempest-plugin
+    vars: &zaqar-plugin-vars
+      devstack_plugins:
+        zaqar: https://opendev.org/openstack/zaqar
+      devstack_services:
+        # probably other services can be disabled;
+        # the old legacy job only uses mysql, keystone, zaqar and tempest
+        s-account: false
+        s-container: false
+        s-object: false
+        s-proxy: false
+        c-bak: false
+      tempest_plugins:
+        - zaqar-tempest-plugin
+      tempest_test_regex: zaqar_tempest_plugin.tests
+      tox_envlist: all
+    irrelevant-files: &zaqar-irrelevant-files
+      - ^(test-|)requirements.txt$
+      - ^setup.cfg$
 
 - job:
-    name: zaqar-tempest-plugin-tempest-redis
-    parent: zaqar-tempest-base
-    vars:
-      database_backend: redis
+    name: zaqar-tempest-plugin-base-ipv6
+    abstract: true
+    parent: devstack-tempest-ipv6
+    description: |
+      Abstract base tempest job for zaqar tempest plugin (IPv6-based)
+    required-projects: *zaqar-plugin-required-projects
+    vars: *zaqar-plugin-vars
+    irrelevant-files: *zaqar-irrelevant-files
 
 - job:
-    name: zaqar-tempest-plugin-tempest-swift
-    parent: zaqar-tempest-base
+    name: zaqar-tempest-plugin-mongodb
+    parent: zaqar-tempest-plugin-base
     vars:
-      database_backend: swift
+      devstack_localrc:
+        ZAQAR_BACKEND: mongodb
+
+- job:
+    name: zaqar-tempest-plugin-redis
+    parent: zaqar-tempest-plugin-base
+    vars:
+      devstack_localrc:
+        ZAQAR_BACKEND: redis
+
+- job:
+    name: zaqar-tempest-plugin-swift
+    parent: zaqar-tempest-plugin-base
+    vars: &zaqar-tempest-swift-vars
+      devstack_localrc:
+        ZAQAR_BACKEND: swift
+      devstack_services:
+        s-account: true
+        s-container: true
+        s-object: true
+        s-proxy: true
+
+- job:
+    name: zaqar-tempest-plugin-swift-ipv6
+    parent: zaqar-tempest-plugin-base-ipv6
+    vars: *zaqar-tempest-swift-vars
 
 - project:
     templates:
@@ -22,12 +74,14 @@
       - tempest-plugin-jobs
     check:
       jobs:
-        - zaqar-tempest-plugin-tempest-redis
-        - zaqar-tempest-plugin-tempest-swift
-        - zaqar-tempest-plugin-tempest-mongodb
+        - zaqar-tempest-plugin-mongodb
+        - zaqar-tempest-plugin-redis
+        - zaqar-tempest-plugin-swift
+        - zaqar-tempest-plugin-swift-ipv6
     gate:
       queue: zaqar
       jobs:
-        - zaqar-tempest-plugin-tempest-redis
-        - zaqar-tempest-plugin-tempest-swift
-        - zaqar-tempest-plugin-tempest-mongodb
+        - zaqar-tempest-plugin-mongodb
+        - zaqar-tempest-plugin-redis
+        - zaqar-tempest-plugin-swift
+        - zaqar-tempest-plugin-swift-ipv6
