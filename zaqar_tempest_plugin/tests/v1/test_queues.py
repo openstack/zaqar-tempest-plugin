@@ -13,8 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-from six import moves
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 from tempest.lib import exceptions as lib_exc
@@ -49,7 +47,7 @@ class TestManageQueue(base.BaseV1MessagingTest):
     def resource_setup(cls):
         super(TestManageQueue, cls).resource_setup()
         cls.queues = list()
-        for _ in moves.xrange(5):
+        for _ in range(5):
             queue_name = data_utils.rand_name('Queues-Test')
             cls.queues.append(queue_name)
             # Create Queue
