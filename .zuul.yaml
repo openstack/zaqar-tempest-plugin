@@ -69,6 +69,7 @@
     vars: *zaqar-tempest-swift-vars
 
 - project:
+    queue: zaqar
     templates:
       - check-requirements
       - tempest-plugin-jobs
@@ -79,7 +80,6 @@
         - zaqar-tempest-plugin-swift
         - zaqar-tempest-plugin-swift-ipv6
     gate:
-      queue: zaqar
       jobs:
         - zaqar-tempest-plugin-mongodb
         - zaqar-tempest-plugin-redis
