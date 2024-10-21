@@ -25,7 +25,13 @@
       tox_envlist: all
     irrelevant-files: &zaqar-irrelevant-files
       - ^(test-|)requirements.txt$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^zaqar/hacking/.*$
+      - ^zaqar/tests/.*$
+      - ^releasenotes/.*$
       - ^setup.cfg$
+      - ^tox.ini$
 
 - job:
     name: zaqar-tempest-plugin-base-ipv6
