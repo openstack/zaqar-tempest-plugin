@@ -51,11 +51,59 @@
         ZAQAR_BACKEND: mongodb
 
 - job:
+    name: zaqar-tempest-plugin-mongodb-2024-2
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.2
+
+- job:
+    name: zaqar-tempest-plugin-mongodb-2024-1
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.1
+
+- job:
+    name: zaqar-tempest-plugin-mongodb-2023-2
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.2
+
+- job:
+    name: zaqar-tempest-plugin-mongodb-2023-1
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.1
+
+- job:
     name: zaqar-tempest-plugin-redis
     parent: zaqar-tempest-plugin-base
     vars:
       devstack_localrc:
         ZAQAR_BACKEND: redis
+
+- job:
+    name: zaqar-tempest-plugin-redis-2024-2
+    parent: zaqar-tempest-plugin-redis
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.2
+
+- job:
+    name: zaqar-tempest-plugin-redis-2024-1
+    parent: zaqar-tempest-plugin-redis
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.1
+
+- job:
+    name: zaqar-tempest-plugin-redis-2023-2
+    parent: zaqar-tempest-plugin-redis
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.2
+
+- job:
+    name: zaqar-tempest-plugin-redis-2023-1
+    parent: zaqar-tempest-plugin-redis
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.1
 
 - job:
     name: zaqar-tempest-plugin-swift
@@ -70,6 +118,30 @@
         s-proxy: true
 
 - job:
+    name: zaqar-tempest-plugin-swift-2024-2
+    parent: zaqar-tempest-plugin-swift
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.2
+
+- job:
+    name: zaqar-tempest-plugin-swift-2024-1
+    parent: zaqar-tempest-plugin-swift
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2024.1
+
+- job:
+    name: zaqar-tempest-plugin-swift-2023-2
+    parent: zaqar-tempest-plugin-swift
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.2
+
+- job:
+    name: zaqar-tempest-plugin-swift-2023-1
+    parent: zaqar-tempest-plugin-swift
+    nodeset: openstack-single-node-jammy
+    override-checkout: stable/2023.1
+
+- job:
     name: zaqar-tempest-plugin-swift-ipv6
     parent: zaqar-tempest-plugin-base-ipv6
     vars: *zaqar-tempest-swift-vars
@@ -82,8 +154,20 @@
     check:
       jobs:
         - zaqar-tempest-plugin-mongodb
+        - zaqar-tempest-plugin-mongodb-2023-1
+        - zaqar-tempest-plugin-mongodb-2023-2
+        - zaqar-tempest-plugin-mongodb-2024-1
+        - zaqar-tempest-plugin-mongodb-2024-2
         - zaqar-tempest-plugin-redis
+        - zaqar-tempest-plugin-redis-2023-1
+        - zaqar-tempest-plugin-redis-2023-2
+        - zaqar-tempest-plugin-redis-2024-1
+        - zaqar-tempest-plugin-redis-2024-2
         - zaqar-tempest-plugin-swift
+        - zaqar-tempest-plugin-swift-2023-1
+        - zaqar-tempest-plugin-swift-2023-2
+        - zaqar-tempest-plugin-swift-2024-1
+        - zaqar-tempest-plugin-swift-2024-2
         - zaqar-tempest-plugin-swift-ipv6
     gate:
       jobs:
