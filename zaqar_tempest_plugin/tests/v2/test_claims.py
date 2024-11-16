@@ -136,7 +136,7 @@ class TestClaims(base.BaseV2MessagingTest):
             resp, body = self.client.post_claims(
                 queue_name=QueueName,
                 rbody=meta)
-            if(i == 2):
+            if i == 2:
                 self.assertEqual('204', resp['status'])
             else:
                 self.assertEqual('201', resp['status'])
