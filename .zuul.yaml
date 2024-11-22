@@ -50,6 +50,14 @@
       devstack_localrc:
         ZAQAR_BACKEND: mongodb
 
+# TODO(gmann): As per the 2025.1 testing runtime, we need to run at least
+# one job on jammy. This job can be removed in 2025.2 cycle.
+- job:
+    name: zaqar-tempest-plugin-mongodb-jammy
+    description: This is integrated job testing on Ubuntu jammy(22.04)
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-jammy
+
 - job:
     name: zaqar-tempest-plugin-mongodb-2024-2
     parent: zaqar-tempest-plugin-mongodb
@@ -136,6 +144,7 @@
     check:
       jobs:
         - zaqar-tempest-plugin-mongodb
+        - zaqar-tempest-plugin-mongodb-jammy
         - zaqar-tempest-plugin-mongodb-2023-2
         - zaqar-tempest-plugin-mongodb-2024-1
         - zaqar-tempest-plugin-mongodb-2024-2
@@ -151,6 +160,7 @@
     gate:
       jobs:
         - zaqar-tempest-plugin-mongodb
+        - zaqar-tempest-plugin-mongodb-jammy
         - zaqar-tempest-plugin-redis
         - zaqar-tempest-plugin-swift
         - zaqar-tempest-plugin-swift-ipv6
