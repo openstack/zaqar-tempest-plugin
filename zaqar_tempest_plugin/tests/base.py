@@ -146,31 +146,6 @@ class BaseMessagingTest(test.BaseTestCase):
         return rbody
 
 
-class BaseV1MessagingTest(BaseMessagingTest):
-    """Base class for the Messaging (Zaqar) v1.0 tests."""
-    @classmethod
-    def setup_clients(cls):
-        super(BaseV1MessagingTest, cls).setup_clients()
-        cls.client = messaging_client.V1MessagingClient(
-            cls.os_primary.auth_provider,
-            CONF.messaging.catalog_type,
-            CONF.identity.region,
-            build_interval=CONF.compute.build_interval,
-            build_timeout=CONF.compute.build_timeout)
-
-    @classmethod
-    def check_queue_exists(cls, queue_name):
-        """Wrapper utility that checks the existence of a test queue."""
-        resp, body = cls.client.show_queue(queue_name)
-        return resp, body
-
-    @classmethod
-    def check_queue_exists_head(cls, queue_name):
-        """Wrapper utility checks the head of a queue via http HEAD."""
-        resp, body = cls.client.head_queue(queue_name)
-        return resp, body
-
-
 class BaseV11MessagingTest(BaseMessagingTest):
     """Base class for the Messaging (Zaqar) v1.1 tests."""
     @classmethod
