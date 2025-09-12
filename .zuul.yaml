@@ -61,6 +61,12 @@
     nodeset: openstack-single-node-jammy
 
 - job:
+    name: zaqar-tempest-plugin-mongodb-2025-2
+    parent: zaqar-tempest-plugin-mongodb
+    nodeset: openstack-single-node-noble
+    override-checkout: stable/2025.2
+
+- job:
     name: zaqar-tempest-plugin-mongodb-2025-1
     parent: zaqar-tempest-plugin-mongodb
     nodeset: openstack-single-node-noble
@@ -84,6 +90,12 @@
     vars:
       devstack_localrc:
         ZAQAR_BACKEND: redis
+
+- job:
+    name: zaqar-tempest-plugin-redis-2025-2
+    parent: zaqar-tempest-plugin-redis
+    nodeset: openstack-single-node-noble
+    override-checkout: stable/2025.2
 
 - job:
     name: zaqar-tempest-plugin-redis-2025-1
@@ -114,6 +126,12 @@
         s-container: true
         s-object: true
         s-proxy: true
+
+- job:
+    name: zaqar-tempest-plugin-swift-2025-2
+    parent: zaqar-tempest-plugin-swift
+    nodeset: openstack-single-node-noble
+    override-checkout: stable/2025.2
 
 - job:
     name: zaqar-tempest-plugin-swift-2025-1
@@ -149,14 +167,17 @@
         - zaqar-tempest-plugin-mongodb-2024-1
         - zaqar-tempest-plugin-mongodb-2024-2
         - zaqar-tempest-plugin-mongodb-2025-1
+        - zaqar-tempest-plugin-mongodb-2025-2
         - zaqar-tempest-plugin-redis
         - zaqar-tempest-plugin-redis-2024-1
         - zaqar-tempest-plugin-redis-2024-2
         - zaqar-tempest-plugin-redis-2025-1
+        - zaqar-tempest-plugin-redis-2025-2
         - zaqar-tempest-plugin-swift
         - zaqar-tempest-plugin-swift-2024-1
         - zaqar-tempest-plugin-swift-2024-2
         - zaqar-tempest-plugin-swift-2025-1
+        - zaqar-tempest-plugin-swift-2025-2
         - zaqar-tempest-plugin-swift-ipv6
     gate:
       jobs:
