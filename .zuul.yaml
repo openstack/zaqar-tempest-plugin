@@ -25,6 +25,7 @@
       tox_envlist: all
     irrelevant-files: &zaqar-irrelevant-files
       - ^\.gitreview$
+      - ^\.pre-commit-config\.yaml$
       - ^(test-|)requirements.txt$
       - ^.*\.rst$
       - ^api-ref/.*$
