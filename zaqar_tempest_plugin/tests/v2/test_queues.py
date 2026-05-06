@@ -54,8 +54,8 @@ class TestManageQueue(base.BaseV2MessagingTest):
             # Create Queue
             cls.client.create_queue(queue_name)
 
-    def _post_messages(self, repeat=CONF.messaging.max_messages_per_page,
-                       queue_name=None):
+    def _post_messages(self, queue_name=None):
+        repeat = CONF.messaging.max_messages_per_page
         message_body = self.generate_message_body(repeat=repeat)
         resp, body = self.post_messages(queue_name=queue_name,
                                         rbody=message_body)
