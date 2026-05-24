@@ -40,6 +40,7 @@
       - ^zaqar/tests/.*$
       - ^releasenotes/.*$
       - ^setup.cfg$
+      - ^tools/\.*$
       - ^tox.ini$
 
 - job:
