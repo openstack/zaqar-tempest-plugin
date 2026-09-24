@@ -17,8 +17,6 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest import test
 
-from zaqar_tempest_plugin.services.messaging.json import messaging_client
-
 CONF = config.CONF
 
 
@@ -146,56 +144,21 @@ class BaseMessagingTest(test.BaseTestCase):
         return rbody
 
 
-class BaseV11MessagingTest(BaseMessagingTest):
-    """Base class for the Messaging (Zaqar) v1.1 tests."""
-    @classmethod
-    def setup_clients(cls):
-        super(BaseV11MessagingTest, cls).setup_clients()
-        cls.client = messaging_client.V11MessagingClient(
-            cls.os_primary.auth_provider,
-            CONF.messaging.catalog_type,
-            CONF.identity.region,
-            build_interval=CONF.compute.build_interval,
-            build_timeout=CONF.compute.build_timeout)
-
-    @classmethod
-    def generate_message_body(cls, repeat=1):
-        """Wrapper utility that sets the metadata of a queue."""
-        message_ttl = data_utils.\
-            rand_int_id(start=60, end=CONF.messaging.max_message_ttl)
-
-        key = data_utils.arbitrary_string(size=20, base_text='MessagingKey')
-        value = data_utils.arbitrary_string(size=20,
-                                            base_text='MessagingValue')
-        message_body = {key: value}
-
-        body = ([{'body': message_body, 'ttl': message_ttl}] * repeat)
-        rbody = {'messages': body}
-        return rbody
-
-
 class BaseV2MessagingTest(BaseMessagingTest):
     """Base class for the Messaging (Zaqar) v2 tests."""
     @classmethod
     def setup_clients(cls):
         super(BaseV2MessagingTest, cls).setup_clients()
-        cls.client = messaging_client.V2MessagingClient(
-            cls.os_primary.auth_provider,
-            CONF.messaging.catalog_type,
-            CONF.identity.region,
-            build_interval=CONF.compute.build_interval,
-            build_timeout=CONF.compute.build_timeout)
+        cls.client = cls.os_primary.messaging.V2MessagingClient()
 
     @classmethod
     def purge_queue(cls, queue_name, resource=None):
-        resp, body = cls.client.purge_queue(
-            queue_name, resource)
+        resp, body = cls.client.purge_queue(queue_name, resource)
         return resp, body
 
     @classmethod
     def create_subscription(cls, queue_name, rbody):
-        resp, body = cls.client.create_subscription(
-            queue_name, rbody)
+        resp, body = cls.client.create_subscription(queue_name, rbody)
         return resp, body
 
     @classmethod

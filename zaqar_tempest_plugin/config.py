@@ -27,6 +27,16 @@ MessagingGroup = [
     cfg.StrOpt('catalog_type',
                default='messaging',
                help='Catalog type of the Messaging service.'),
+    cfg.StrOpt('endpoint_type',
+               default='public',
+               choices=['public', 'admin', 'internal'],
+               help="The endpoint type to use for the messaging service."),
+    cfg.StrOpt("region",
+               default="",
+               help="The messaging region name to use. If empty, the value "
+                    "of identity.region is used instead. If no such region "
+                    "is found in the service catalog, the first found one is "
+                    "used."),
     cfg.IntOpt('max_queues_per_page',
                default=20,
                help='The maximum number of queue records per page when '

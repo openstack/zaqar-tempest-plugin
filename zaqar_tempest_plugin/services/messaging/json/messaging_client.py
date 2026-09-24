@@ -27,22 +27,15 @@ from zaqar_tempest_plugin.api_schema.response.v2 \
 
 class MessagingClient(rest_client.RestClient, metaclass=abc.ABCMeta):
 
-    def __init__(self, auth_provider, service, region, **kwargs):
-        super(MessagingClient, self).__init__(
-            auth_provider, service, region, **kwargs)
-
-        self.uri_prefix = 'v{0}'.format(self.version)
+    def __init__(self, *args, **kwargs):
+        super(MessagingClient, self).__init__(*args, **kwargs)
 
         client_id = uuidutils.generate_uuid(dashed=False)
         self.headers = {'Client-ID': client_id}
 
 
 class V2MessagingClient(MessagingClient):
-    version = '2'
-
-    def __init__(self, auth_provider, service, region, **kwargs):
-        super(V2MessagingClient, self).__init__(
-            auth_provider, service, region, **kwargs)
+    uri_prefix = 'v2'
 
     def list_queues(self, url_params=False):
         uri = '{0}/queues'.format(self.uri_prefix)

@@ -71,3 +71,14 @@ class ZaqarTempestPlugin(plugins.TempestPlugin):
                  zaqar_config.MessagingGroup),
                 (config.service_available_group.name,
                  [zaqar_config.service_option])]
+
+    def get_service_clients(self):
+        messaging_config = config.service_client_config('messaging')
+        messaging_params = {
+            'name': 'messaging',
+            'service_version': 'messaging.v2',
+            'module_path': 'zaqar_tempest_plugin.services.messaging',
+            'client_names': ['V2MessagingClient'],
+        }
+        messaging_params.update(messaging_config)
+        return [messaging_params]
