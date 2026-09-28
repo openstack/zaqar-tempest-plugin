@@ -145,6 +145,18 @@ class V2MessagingClient(MessagingClient):
     def delete_messages(self, message_uri):
         resp, body = self.delete(message_uri, headers=self.headers)
         self.expected_success(204, resp.status)
+
+        return resp, body
+
+    def pop_messages(self, queue_name, pop):
+        uri = '{0}/queues/{1}/messages?pop={2}'.format(
+            self.uri_prefix, queue_name, pop)
+        resp, body = self.delete(uri, headers=self.headers)
+
+        if resp['status'] != '204':
+            body = json.loads(body)
+            self.validate_response(v2schema.pop_messages, resp, body)
+
         return resp, body
 
     def post_claims(self, queue_name, rbody, url_params=False):

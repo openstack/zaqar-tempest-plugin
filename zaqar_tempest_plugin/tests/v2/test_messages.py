@@ -116,6 +116,17 @@ class TestMessages(base.BaseV2MessagingTest):
                           self.client.show_multiple_messages,
                           message_uri)
 
+    @decorators.idempotent_id('6b61dd0a-bc28-4fbf-97a6-2dd508aaa522')
+    def test_pop_messages(self):
+        for i in range(5):
+            # Post Messages
+            _, body = self._post_messages()
+
+        for i in range(5):
+            resp, body = self.client.pop_messages(self.queue_name, 1)
+            self.assertEqual('200', resp['status'])
+            self.assertEqual(1, len(body['messages']))
+
     @classmethod
     def resource_cleanup(cls):
         cls.delete_queue(cls.queue_name)

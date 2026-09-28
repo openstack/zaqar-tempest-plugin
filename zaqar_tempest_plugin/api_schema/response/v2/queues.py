@@ -201,6 +201,34 @@ get_multiple_messages = {
     }
 }
 
+pop_messages_response = {
+    'type': 'array',
+    'minItems': 0,
+    'items': {
+        'type': 'object',
+        'properties': {
+            'ttl': message_ttl,
+            'age': age,
+            'body': {'type': 'object'},
+            'id': {'type': 'string'},
+            'claim_count': {'type': 'integer'},
+            'cliam_id': {'type': 'string'}
+        },
+        'required': ['ttl', 'age', 'body', 'claim_count', 'claim_id']
+    }
+}
+
+pop_messages = {
+    'status_code': [200, 204],
+    'response_body': {
+        'type': 'object',
+        'properties': {
+            'messages': pop_messages_response
+        }
+    },
+    'required': ['messages']
+}
+
 messages_claimed = {
     'type': 'object',
     'properties': {
@@ -209,7 +237,7 @@ messages_claimed = {
             'format': 'uri'
         },
         'ttl': message_ttl,
-        'age': {'type': 'number'},
+        'age': age,
         'body': {'type': 'object'},
         'id': {'type': 'string'},
         'checksum': {'type': 'string'},
@@ -241,7 +269,7 @@ query_claim = {
     'response_body': {
         'type': 'object',
         'properties': {
-            'age': {'type': 'number'},
+            'age': age,
             'ttl': claim_ttl,
             'messages': {
                 'type': 'array',
